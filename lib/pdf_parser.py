@@ -299,6 +299,42 @@ def extract_text_with_info(
     return info
 
 
+def extract_headings_and_bullets(
+    input_obj: Union[bytes, bytearray, str, BytesIO],
+    dpi: int = 300,
+    ocr_lang: str = "eng",
+    method: str = "auto",
+) -> dict:
+    text = parse_pdf(input_obj, dpi=dpi, ocr_lang=ocr_lang, method=method)
+    if not isinstance(text, str) or not text.strip():
+        return {"headings": [], "items": [], "error": text or "No text"}
+    lines = [re.sub(r"\s+", " ", l).strip() for l in text.splitlines() if l.strip()]
+    bullets = []
+    heads = []
+    for l in lines:
+        if re.match(r"^(\d+\.|\-|•|●|▪|‣)\s+", l):
+            bullets.append(l)
+        elif len(l.split()) <= 6:
+            heads.append(l)
+    return {"headings": heads, "items": bullets}
+
+
+def extract_modification_items(
+    input_obj: Union[bytes, bytearray, str, BytesIO],
+    dpi: int = 300,
+    ocr_lang: str = "eng",
+    method: str = "auto",
+) -> list:
+    r = extract_headings_and_bullets(input_obj, dpi=dpi, ocr_lang=ocr_lang, method=method)
+    if "error" in r:
+        return []
+    items = []
+    for s in r.get("items", []):
+        s2 = re.sub(r"^[\-•●▪‣]+\s+", "", s)
+        items.append(s2)
+    return items
+
+
 def extract_marksheet_fields(
     input_obj: Union[bytes, bytearray, str, BytesIO],
     dpi: int = 300,
