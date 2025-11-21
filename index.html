@@ -1,81 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ELIGIFY - Exam Eligibility Checker</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f7fafc; }
-        /* Custom scrollbar for eligibility section (Dark Gray) */
-        #results-container::-webkit-scrollbar { width: 6px; }
-        #results-container::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
-        .card-shadow { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
-    </style>
-</head>
-<body>
-
-<div class="min-h-screen bg-gray-50 p-4 md:p-10">
-    <header class="text-center mb-10">
-        <h1 class="text-5xl font-extrabold text-gray-900">ELIGIFY</h1>
-        <p class="text-xl text-gray-600 mt-2">Find the exams you are eligible for!</p>
-    </header>
-
-    <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
-        
-        <!-- Candidate Registration Form -->
-        <div class="bg-white p-6 md:p-8 rounded-xl card-shadow h-fit">
-            <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-3">1. Candidate Registration</h2>
-            <form id="candidate-form" class="space-y-4">
-                
-                <!-- Personal Details -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input type="text" id="firstName" placeholder="First Name" class="p-3 border border-gray-300 rounded-lg focus:ring-gray-600 focus:border-gray-600" required>
-                    <input type="date" id="dob" class="p-3 border border-gray-300 rounded-lg focus:ring-gray-600 focus:border-gray-600" required>
-                </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input type="email" id="email" placeholder="Email (Unique)" class="p-3 border border-gray-300 rounded-lg focus:ring-gray-600 focus:border-gray-600" required>
-                    <select id="category" class="p-3 border border-gray-300 rounded-lg focus:ring-gray-600 focus:border-gray-600" required>
-                        <option value="">Select Category</option>
-                        <option value="GEN">General</option>
-                        <option value="EWS">EWS</option>
-                        <option value="OBC-NCL">OBC-NCL</option>
-                        <option value="SC">SC</option>
-                        <option value="ST">ST</option>
-                    </select>
-                </div>
-
-                <!-- Academic Details -->
-                <h3 class="text-xl font-semibold mt-6 pt-4 border-t">2. Academic Credentials (In Percentage/CGPA)</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <input type="number" id="p10" placeholder="10th Percentage" step="0.01" min="0" max="100" class="p-3 border border-gray-300 rounded-lg focus:ring-gray-600 focus:border-gray-600" required>
-                    <input type="number" id="p12" placeholder="12th Percentage" step="0.01" min="0" max="100" class="p-3 border border-gray-300 rounded-lg focus:ring-gray-600 focus:border-gray-600" required>
-                    <input type="number" id="ugCgpa" placeholder="UG CGPA (e.g., 7.5)" step="0.01" min="0" max="10" class="p-3 border border-gray-300 rounded-lg focus:ring-gray-600 focus:border-gray-600" required>
-                </div>
-
-                <button type="submit" class="w-full bg-gray-900 text-white font-bold py-3 px-4 rounded-lg hover:bg-gray-700 transition duration-200 mt-6 shadow-lg shadow-gray-400">
-                    Check Eligibility Now
-                </button>
-            </form>
-            <div id="form-message" class="mt-4 p-3 rounded-lg text-center hidden"></div>
-        </div>
-
-        <!-- Eligibility Results Section -->
-        <div class="bg-white p-6 md:p-8 rounded-xl card-shadow">
-            <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-3">3. Eligible Examinations</h2>
-            <div id="results-container" class="space-y-6 max-h-[70vh] overflow-y-auto pr-2">
-                <p id="initial-message" class="text-center text-gray-500 p-10 bg-gray-50 rounded-lg">
-                    Please fill out the form to check your eligibility against our mock database of exams.
-                </p>
-                <!-- Results will be injected here -->
-            </div>
-        </div>
-    </main>
-</div>
-
 <script>
     // -----------------------------------------------------------------
     // SIMULATED DATABASE (Mock Data based on schema.sql and mock_data.sql)
@@ -161,7 +83,7 @@
         {
             exam_id: 116, exam_name: 'NEET-PG (Medical PG)', conducting_body: 'NBE', exam_level: 'National', exam_mode: 'Online', website: 'nbe.edu.in', fee_gen_ews: 5000, total_duration_mins: 210,
             min_age: 22, max_age: 99, min_10_percent: 50, min_12_percent: 50, min_ug_cgpa: 7.0,
-            subjects: ['Clinical Subjects', 'Pre/Para-Clinical Subjects'], documents: ['MBBS Degree', 'Caste Certificate', 'Photo'],
+            subjects: ['Medical Sciences'], documents: ['MBBS Degree', 'Caste Certificate', 'Photo'],
         },
         {
             exam_id: 117, exam_name: 'CUET-PG (Common Univ. Entrance PG)', conducting_body: 'NTA', exam_level: 'National', exam_mode: 'Online', website: 'nta.ac.in/cuetpg', fee_gen_ews: 800, total_duration_mins: 105,
@@ -171,7 +93,7 @@
         {
             exam_id: 118, exam_name: 'SSC-CGL (Govt. Job)', conducting_body: 'SSC', exam_level: 'National', exam_mode: 'Online', website: 'ssc.nic.in', fee_gen_ews: 100, total_duration_mins: 120,
             min_age: 18, max_age: 32, min_10_percent: 50, min_12_percent: 50, min_ug_cgpa: 5.0,
-            subjects: ['Quantitative Aptitude', 'General Intelligence', 'English Comprehension'], documents: ['UG Degree', 'Photo', 'Aadhar'],
+            subjects: ['Quantitative Aptitude', 'General Intelligence', 'English Comprehension', 'General Awareness'], documents: ['UG Degree', 'Photo', 'Aadhar'],
         },
         {
             exam_id: 119, exam_name: 'VITEEE (Engineering)', conducting_body: 'VIT', exam_level: 'University', exam_mode: 'Online', website: 'viteee.vit.ac.in', fee_gen_ews: 1350, total_duration_mins: 150,
@@ -218,7 +140,6 @@
         return `
             <div class="bg-gray-100 border-l-4 border-gray-900 p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
                 <h3 class="text-xl font-bold text-gray-900">
-                    <!-- Exam name is now hyperlinked -->
                     <a href="https://${exam.website}" target="_blank" class="hover:underline text-gray-900">
                         ${exam.exam_name}
                     </a>
@@ -241,8 +162,7 @@
                     <ul class="list-disc list-inside ml-2 text-sm">${docsHtml}</ul>
                 </div>
                 
-                <!-- Redundant link removed since the H3 title is now the primary link -->
-            </div>
+                </div>
         `;
     }
 
@@ -295,17 +215,37 @@
         const formMessage = document.getElementById('form-message');
         const resultsContainer = document.getElementById('results-container');
         
+        // Precision validation helper: allow up to 3 decimal places
+        const hasTooManyDecimals = (val) => {
+            if (val === null || val === undefined) return false;
+            const s = String(val).trim();
+            if (s === '') return false;
+            const m = s.match(/^\d+(?:\.(\d+))?$/);
+            return m && m[1] && m[1].length > 3;
+        };
+        
         // 1. Collect and process candidate data
         const dobInput = document.getElementById('dob').value;
+        const p10Raw = document.getElementById('p10').value;
+        const p12Raw = document.getElementById('p12').value;
+        const ugRaw = document.getElementById('ugCgpa').value;
+
+        // Enforce max 3 decimal places for marks inputs
+        if (hasTooManyDecimals(p10Raw) || hasTooManyDecimals(p12Raw) || hasTooManyDecimals(ugRaw)) {
+            formMessage.textContent = 'Please enter values with at most 3 decimal places for percentages and CGPA.';
+            formMessage.className = 'mt-4 p-3 rounded-lg text-red-700 bg-red-100 block border border-red-300';
+            return;
+        }
+
         const candidateProfile = {
             firstName: document.getElementById('firstName').value,
             dob: dobInput,
             age: calculateAge(dobInput),
             email: document.getElementById('email').value,
             category: document.getElementById('category').value,
-            p10: parseFloat(document.getElementById('p10').value),
-            p12: parseFloat(document.getElementById('p12').value),
-            ugCgpa: parseFloat(document.getElementById('ugCgpa').value),
+            p10: parseFloat(p10Raw),
+            p12: parseFloat(p12Raw),
+            ugCgpa: parseFloat(ugRaw),
         };
 
         // 2. Perform Eligibility Check
@@ -335,7 +275,90 @@
         // Scroll to results
         document.getElementById('results-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
-</script>
 
-</body>
-</html>
+    // -----------------------------------------------------------------
+    // MARKSHEET SCANNER (MVP)
+    // -----------------------------------------------------------------
+    document.getElementById('scanBtn').addEventListener('click', async () => {
+        const fileInput = document.getElementById('marksheetFile');
+        const msg = document.getElementById('scanMessage');
+        const out = document.getElementById('scanResults');
+        const method = document.getElementById('marksheetMethod').value;
+        const dpiVal = document.getElementById('marksheetDpi').value;
+
+        msg.className = 'mt-4 p-3 rounded-lg text-center hidden';
+        out.innerHTML = '';
+
+        if (!fileInput.files.length) {
+            msg.textContent = 'Please select a PDF file.';
+            msg.className = 'mt-4 p-3 rounded-lg text-center bg-red-100 text-red-700 block';
+            return;
+        }
+        const file = fileInput.files[0];
+
+        const formData = new FormData();
+        formData.append('file', file);
+        const url = `/api/parse-marksheet?method=${encodeURIComponent(method)}${dpiVal ? `&dpi=${encodeURIComponent(dpiVal)}` : ''}`;
+
+        try {
+            const res = await fetch(url, { method: 'POST', body: formData });
+            const data = await res.json();
+            if (!res.ok) {
+                msg.textContent = data.error || 'Unexpected error.';
+                msg.className = 'mt-4 p-3 rounded-lg text-center bg-red-100 text-red-700 block';
+                return;
+            }
+
+            const fields = data.fields || {};
+            if (fields.error) {
+                msg.textContent = fields.error;
+                msg.className = 'mt-4 p-3 rounded-lg text-center bg-yellow-100 text-yellow-800 block';
+                return;
+            }
+
+            const subjects = (fields.subjects || []).map(s => `
+                <tr>
+                    <td class="p-2 border">${s.name ?? ''}</td>
+                    <td class="p-2 border text-right">${s.marks ?? ''}</td>
+                    <td class="p-2 border">${s.grade ?? ''}</td>
+                </tr>
+            `).join('');
+
+            out.innerHTML = `
+                <div class="bg-gray-100 border border-gray-300 rounded-lg p-4">
+                    <h3 class="text-xl font-bold mb-3">Extracted Fields</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div><span class="font-semibold">Name:</span> ${fields.name ?? ''}</div>
+                        <div><span class="font-semibold">Father Name:</span> ${fields.father_name ?? ''}</div>
+                        <div><span class="font-semibold">Roll Number:</span> ${fields.roll_number ?? ''}</div>
+                        <div><span class="font-semibold">Registration Number:</span> ${fields.registration_number ?? ''}</div>
+                        <div><span class="font-semibold">DOB:</span> ${fields.dob ?? ''}</div>
+                        <div><span class="font-semibold">Exam/Course:</span> ${fields.exam ?? ''}</div>
+                        <div><span class="font-semibold">Year:</span> ${fields.year ?? ''}</div>
+                        <div><span class="font-semibold">University/Board:</span> ${fields.university ?? ''}</div>
+                        <div><span class="font-semibold">College/Institute:</span> ${fields.college ?? ''}</div>
+                        <div><span class="font-semibold">Percentage:</span> ${fields.percentage ?? ''}</div>
+                        <div><span class="font-semibold">CGPA:</span> ${fields.cgpa ?? ''}</div>
+                    </div>
+                    <h4 class="text-lg font-semibold mt-4">Subjects</h4>
+                    <table class="w-full border-collapse mt-2">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="p-2 border text-left">Subject</th>
+                                <th class="p-2 border text-right">Marks</th>
+                                <th class="p-2 border text-left">Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${subjects || '<tr><td colspan="3" class="p-2 border text-center text-gray-500">No subjects parsed</td></tr>'}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        } catch (err) {
+            msg.textContent = 'Network or server error.';
+            msg.className = 'mt-4 p-3 rounded-lg text-center bg-red-100 text-red-700 block';
+        }
+    });
+
+</script>

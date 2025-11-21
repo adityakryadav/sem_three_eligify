@@ -1,11 +1,12 @@
--- ELIGIFY Mock Data Insertion (Updated with 20 Exams)
+-- ELIGIFY Mock Data Insertion (Updated with 20 Exams and Normalized Subjects)
+SET SQL_SAFE_UPDATES = 0;
 USE eligify_db;
 
 -- Clear existing data before inserting new, expanded set
 DELETE FROM Documents;
 DELETE FROM Reservation;
 DELETE FROM Eligibility;
-DELETE FROM Subjects;
+DELETE FROM ExamSubject; -- UPDATED: Using normalized table
 DELETE FROM Exam;
 
 -- -----------------------------------------------------
@@ -36,29 +37,69 @@ INSERT INTO Exam (exam_id, exam_name, max_attempts, conducting_body, exam_level,
 
 
 -- -----------------------------------------------------
--- Insert into Subjects Table
+-- Insert into ExamSubject Table (Normalized)
 -- -----------------------------------------------------
-INSERT INTO Subjects (exam_id, num_subjects, subject_1, subject_2, subject_3, subject_4) VALUES
-(101, 3, 'Physics', 'Chemistry', 'Mathematics', NULL),
-(102, 4, 'Physics', 'Chemistry', 'Botany', 'Zoology'),
-(103, 2, 'General Studies I', 'General Studies II (CSAT)', NULL, NULL),
-(104, 3, 'General Aptitude', 'Engineering Mathematics', 'Core Engineering Branch Subject', NULL),
-(105, 5, 'English Language', 'Current Affairs', 'Legal Reasoning', 'Logical Reasoning'),
-(106, 3, 'PCM/PCB', 'English Proficiency', 'Logical Reasoning', NULL),
-(107, 2, 'Subject Proficiency Test', 'Research Aptitude Test', NULL, NULL),
-(108, 3, 'Physics', 'Chemistry', 'Mathematics/Biology', NULL),
-(109, 3, 'Language', 'Domain Subjects', 'General Test', NULL),
-(110, 2, 'Mathematics', 'General Ability Test (GAT)', NULL, NULL),
-(111, 4, 'Physics', 'Chemistry', 'Biology', 'Mathematics'),
-(112, 3, 'Mathematics', 'Statistics', 'English', NULL),
-(113, 3, 'Aptitude', 'Observation', 'Design Sketching', NULL),
-(114, 4, 'General Awareness', 'Verbal Ability', 'Numerical Ability', 'Reasoning'),
-(115, 3, 'English', 'General Knowledge', 'Elementary Mathematics', NULL),
-(116, 1, 'Medical Sciences', NULL, NULL, NULL),
-(117, 2, 'General Section', 'Domain Specific Knowledge', NULL, NULL),
-(118, 4, 'Quantitative Aptitude', 'General Intelligence', 'English Comprehension', 'General Awareness'),
-(119, 3, 'PCM/PCB', 'English', 'Aptitude', NULL),
-(120, 3, 'Physics', 'Chemistry', 'Mathematics/Biology', NULL);
+INSERT INTO ExamSubject (exam_id, subject_name) VALUES
+(101, 'Physics'),
+(101, 'Chemistry'),
+(101, 'Mathematics'),
+(102, 'Physics'),
+(102, 'Chemistry'),
+(102, 'Botany'),
+(102, 'Zoology'),
+(103, 'General Studies I'),
+(103, 'General Studies II (CSAT)'),
+(104, 'General Aptitude'),
+(104, 'Engineering Mathematics'),
+(104, 'Core Engineering Branch Subject'),
+(105, 'English Language'),
+(105, 'Current Affairs'),
+(105, 'Legal Reasoning'),
+(105, 'Logical Reasoning'),
+(106, 'PCM/PCB'),
+(106, 'English Proficiency'),
+(106, 'Logical Reasoning'),
+(107, 'Subject Proficiency Test'),
+(107, 'Research Aptitude Test'),
+(108, 'Physics'),
+(108, 'Chemistry'),
+(108, 'Mathematics/Biology'),
+(109, 'Language'),
+(109, 'Domain Subjects'),
+(109, 'General Test'),
+(110, 'Mathematics'),
+(110, 'General Ability Test (GAT)'),
+(111, 'Physics'),
+(111, 'Chemistry'),
+(111, 'Biology'),
+(111, 'Mathematics'),
+(112, 'Mathematics'),
+(112, 'Statistics'),
+(112, 'English'),
+(113, 'Aptitude'),
+(113, 'Observation'),
+(113, 'Design Sketching'),
+(114, 'General Awareness'),
+(114, 'Verbal Ability'),
+(114, 'Numerical Ability'),
+(114, 'Reasoning'),
+(115, 'English'),
+(115, 'General Knowledge'),
+(115, 'Elementary Mathematics'),
+(116, 'Medical Sciences'),
+(117, 'General Section'),
+(117, 'Domain Specific Knowledge'),
+(118, 'Quantitative Aptitude'),
+(118, 'General Intelligence'),
+(118, 'English Comprehension'),
+(118, 'General Awareness'),
+(119, 'PCM/PCB'),
+(119, 'English'),
+(119, 'Aptitude'),
+(120, 'Physics'),
+(120, 'Chemistry'),
+(120, 'Mathematics/Biology');
+
 
 -- -----------------------------------------------------
 -- Insert into Eligibility Table (Mandatory academic checks)

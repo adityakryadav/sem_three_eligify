@@ -1,5 +1,5 @@
--- ELIGIFY Database Schema
--- Run this file in your MySQL environment (e.g., MySQL Workbench or Command Line)
+-- ELIGIFY Database Schema (Refactored for Normalization)
+-- Focus: Removing derived fields and normalizing repeating groups.
 
 -- Drop database if it exists and create a new one
 DROP DATABASE IF EXISTS eligify_db;
@@ -7,7 +7,7 @@ CREATE DATABASE eligify_db;
 USE eligify_db;
 
 -- -----------------------------------------------------
--- Table: Exam
+-- Table: Exam (Core Exam Information)
 -- -----------------------------------------------------
 CREATE TABLE Exam (
     exam_id INT PRIMARY KEY,
@@ -24,20 +24,21 @@ CREATE TABLE Exam (
 );
 
 -- -----------------------------------------------------
--- Table: Subjects (Linked to Exam)
+-- Table: ExamSubject (Normalized 1:Many relationship)
+-- Replaces the denormalized 'Subjects' table.
 -- -----------------------------------------------------
-CREATE TABLE Subjects (
-    exam_id INT PRIMARY KEY,
-    num_subjects INT,
-    subject_1 VARCHAR(200),
-    subject_2 VARCHAR(200),
-    subject_3 VARCHAR(200),
-    subject_4 VARCHAR(200),
+CREATE TABLE ExamSubject (
+    exam_subject_id INT PRIMARY KEY AUTO_INCREMENT,
+    exam_id INT NOT NULL,
+    subject_name VARCHAR(200) NOT NULL,
+    -- Ensure an exam doesn't have the same subject listed twice
+    UNIQUE KEY uk_exam_subject (exam_id, subject_name),
     FOREIGN KEY (exam_id) REFERENCES Exam(exam_id) ON DELETE CASCADE
 );
 
 -- -----------------------------------------------------
--- Table: Eligibility (Linked to Exam)
+-- Table: Eligibility (Exam-specific criteria)
+-- This table remains as a 1:1 extension of Exam to keep concerns separate.
 -- -----------------------------------------------------
 CREATE TABLE Eligibility (
     exam_id INT PRIMARY KEY,
@@ -50,7 +51,7 @@ CREATE TABLE Eligibility (
 );
 
 -- -----------------------------------------------------
--- Table: Reservation (Linked to Exam)
+-- Table: Reservation (Exam-specific reservation quotas)
 -- -----------------------------------------------------
 CREATE TABLE Reservation (
     exam_id INT PRIMARY KEY,
@@ -62,7 +63,7 @@ CREATE TABLE Reservation (
 );
 
 -- -----------------------------------------------------
--- Table: Documents (Linked to Exam)
+-- Table: Documents (Exam-specific required documents)
 -- -----------------------------------------------------
 CREATE TABLE Documents (
     exam_id INT PRIMARY KEY,
@@ -79,13 +80,13 @@ CREATE TABLE Documents (
 
 -- -----------------------------------------------------
 -- Table: Candidate (The user registration table)
+-- 'age' derived field removed.
 -- -----------------------------------------------------
 CREATE TABLE Candidate (
     candidate_id INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     dob DATE NOT NULL,
-    age INT, -- Derived/calculated field
     gender CHAR(1) CHECK (gender IN ('M', 'F', 'O')),
     email VARCHAR(100) UNIQUE NOT NULL,
     phone VARCHAR(20),
